@@ -67,11 +67,27 @@ if (!params.genomes) {
 // =====================
 workflow {
 
-    log.info "Starting BactoAtlas"
-    log.info "Profile: ${params.profile}"
-    log.info "Genomes: ${params.genomes}"
-    log.info "Output directory: ${params.outdir}"
+    workflow {
 
-    // Placeholder for future processes
-    log.info "Pipeline structure initialized successfully 🚀"
+    // Create output and log directories
+    def logDir = new File("${params.outdir}/logs")
+    logDir.mkdirs()
+
+    def logFile = new File(logDir, "bactoatlas.log")
+
+    // Write initial log information
+    logFile << "=====================================\n"
+    logFile << "BactoAtlas run started\n"
+    logFile << "Date: ${new Date()}\n"
+    logFile << "Profile: ${params.profile}\n"
+    logFile << "Genomes: ${params.genomes}\n"
+    logFile << "Output directory: ${params.outdir}\n"
+    logFile << "=====================================\n\n"
+
+    log.info "BactoAtlas started"
+    log.info "Log file: ${logFile}"
+    
+    // (future processes go here)
+}
+
 }
