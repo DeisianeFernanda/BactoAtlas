@@ -1,5 +1,7 @@
 #!/usr/bin/env nextflow
 
+include { PROKKA } from './modules/prokka'
+
 nextflow.enable.dsl=2
 
 // =====================
@@ -67,7 +69,7 @@ if (!params.genomes) {
 // =====================
 workflow {
 
-    workflow {
+    
 
     // Create output and log directories
     def logDir = new File("${params.outdir}/logs")
@@ -88,6 +90,11 @@ workflow {
     log.info "Log file: ${logFile}"
     
     // (future processes go here)
-}
+      Channel
+        .fromPath(params.genomes)
+        .set { genome_ch }
+
+    PROKKA(genome_ch)
+
 
 }
